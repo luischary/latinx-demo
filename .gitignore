@@ -1,0 +1,15 @@
+audios/*
+index_old.html
+index_v1.html
+langs.txt
+transcripts.json
+transcribe.py
+collect_and_zip_audios.py
+
+cover.png
+cover_og_minimal.png
+cover_og_light.png
+cover_og_clean (1).png
+cover_fixed.png
+
+audio_manifest.txt

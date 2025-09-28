@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Base & SEO -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>LatinX: Multilingual TTS with DPO — Audio Demos</title>
+        <meta name="description"
+            content="LatinX: multilingual speech-to-speech/voice cloning with Direct Preference Optimization. Audio demos across EN, PT, ES, FR, IT, RO." />
+
+        <!-- Open Graph / Twitter -->
+        <meta property="og:title"
+            content="LatinX: Multilingual TTS with DPO — Audio Demos" />
+        <meta property="og:description"
+            content="Audio demos across six languages with voice preservation (EN, PT, ES, FR, IT, RO)." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url"
+            content="https://luischary.github.io/latinx-demo/" />
+        <meta property="og:image"
+            content="https://luischary.github.io/latinx-demo/cover_og_clean.png" />
+        <meta property="og:image" content="cover_og_clean.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:image" content="cover_og_clean.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="icon" href="favicon.ico" />
+
+        <!-- JSON-LD: ScholarlyArticle -->
+        <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ScholarlyArticle",
+    "headline":"LatinX: Aligning a Multilingual TTS Model with Direct Preference Optimization",
+    "author":[
+      {"@type":"Person","name":"Luís Felipe Chary"},
+      {"@type":"Person","name":"Miguel Arjona Ramírez"}
+    ],
+    "datePublished":"2025-09-xx",
+    "publisher":{"@type":"CollegeOrUniversity","name":"Universidade de São Paulo"},
+    "url":"https://arxiv.org/abs/2509.05863",
+    "inLanguage":"en",
+    "sameAs":["https://arxiv.org/abs/2509.05863"]
+  }
+  </script>
+
+        <style>
+    :root { color-scheme: light dark; }
+    @media (prefers-color-scheme: dark) {
+      body { background:#0b0b0c; color:#e7e7ea; }
+      .audio-card, pre { background:#141416; border-color:#2a2a2e; }
+      h2 { border-bottom-color:#2a2a2e; }
+      .note { color:#a8a8ad; }
+      .muted { color:#a8a8ad; }
+      .lang-toggle button { background:#1f2023; border-color:#2a2a2e; }
+      .lang-toggle button[aria-pressed="true"] { background:#83839a; }
+    }
+
+    body {
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+      line-height: 1.6;
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background:#fdfdfd;
+      color:#222;
+    }
+
+    header, section { margin-bottom: 40px; }
+    h1, h2, h3, h4 { line-height: 1.2; margin: 0.2em 0 0.4em; }
+    h1 { font-size: 2.2em; }
+    h2 { font-size: 1.8em; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 50px; }
+    h3 { font-size: 1.3em; }
+    h4 { font-size: 1.1em; margin-top: 0.2em; }
+
+    a { color:#0b66ff; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+
+    .header-links a { margin-right: 20px; font-weight: 600; font-size: 1.05em; }
+
+    .audio-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .audio-card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 18px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    figure { margin: 0; }
+    figcaption { font-size: .95em; color:#4a4949; margin-top: 8px; }
+
+    audio { width: 100%; margin-top: 8px; }
+    .badge { display:inline-block; font-size:.8em; padding:2px 8px; border:1px solid #ccc; border-radius:999px; margin-left:8px; }
+    .note { font-size:.92em; color:#4a4949; }
+    .muted { color:#4a4949; font-size:.95em; }
+
+    blockquote {
+      border-left: 4px solid #0b66ff;
+      padding-left: 15px;
+      font-style: italic;
+      color: #555;
+      margin: 20px 0;
+    }
+
+    pre {
+      background:#f4f4f4; padding:15px; border-radius:10px;
+      white-space: pre-wrap; word-wrap: break-word; font-size:.9em; border:1px solid #e9e9e9;
+      position: relative;
+    }
+    .copy-btn {
+      position:absolute; top:8px; right:8px;
+      font-size:.85em; padding:6px 10px; border:1px solid #ccc; background:#fff; border-radius:8px; cursor:pointer;
+    }
+
+    footer { text-align:center; margin-top: 50px; color: #888; }
+
+    /* i18n helpers */
+    .only-pt { display: none; }
+
+    /* i18n: tudo começa oculto e o estado (en/pt) decide o que aparece */
+    .only-en, .only-pt { display: none; }
+    .lang-en .only-en { display: revert; }  /* 'revert' respeita o display natural (h1=block etc.) */
+    .lang-pt .only-pt { display: revert; }
+
+    /* Botões de idioma com rótulo visível */
+    .lang-toggle { display:inline-flex; align-items:center; gap:10px; margin-top:10px; }
+    .lang-toggle .label { font-size:.95em; opacity:.8; }
+    .lang-toggle button {
+        padding:6px 12px; border:1px solid #ccc; background:#f5f5f7; border-radius:10px; cursor:pointer;
+        color:inherit;
+    }
+    .lang-toggle button[aria-pressed="true"] {
+        border-color:#0b66ff;
+        outline: 2px solid #0b66ff33;
+    }
+
+    /* Transcripts */
+    details.transcript {
+        margin-top: 8px;
+        border-left: 3px solid #e5e7eb;
+        padding: 8px 12px;
+        border-radius: 6px;
+        background: #f9fafb;
+    }
+    @media (prefers-color-scheme: dark) {
+        details.transcript { background:#121316; border-color:#2a2a2e; }
+    }
+    details.transcript summary {
+        cursor: pointer;
+        font-weight: 600;
+        list-style: none;
+    }
+    details.transcript[open] { border-left-color: #0b66ff; }
+    details.transcript .tx-body { margin-top: 6px; }
+    details.transcript .copy-tx {
+        float: right; margin-left: 8px;
+        font-size: .8em; padding: 4px 8px;
+        border: 1px solid #ccc; border-radius: 6px; background: transparent; cursor: pointer;
+    }
+    @media (prefers-color-scheme: dark) {
+        details.transcript .copy-tx { border-color:#3a3a3f; }
+    }
+    pre.transcript-text {
+        margin: 8px 0 0;
+        background: transparent;
+        white-space: pre-wrap; word-break: break-word;
+        font-size: .92em;
+    }
+
+    /* Inline transcript (minimal) */
+    .inline-tx{
+        font-size:.95em;
+        color:#151515;
+        margin:4px 0 6px;
+    }
+    .inline-tx .lang{
+        font-weight:600;
+        opacity:.75;
+        margin-right:6px;
+    }
+    .inline-tx .tx{
+        font-style:normal; /* só texto simples */
+    }
+    @media (prefers-color-scheme: dark){
+        .inline-tx{ color:#9595a2; }
+    }
+
+    #chart-smos svg, #chart-mos svg { display:block; width:100%; height:auto; }
+  </style>
+    </head>
+
+    <script id="transcripts-json-inline" type="application/json">
+    {
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/audio_og_0.mp3": [
+            "EN",
+            "Then a small usable programming language would be developed."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/1_audio.mp3": [
+            "EN",
+            "Then a small usable programming language would be developed."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/4_audio.mp3": [
+            "ES",
+            "Entonces se desarrollará un lenguaje de programación pequeño y usable."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/2_audio.mp3": [
+            "FR",
+            "Ensuite, un petit langage de programmation utilisable serait développé."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/3_audio.mp3": [
+            "IT",
+            "Poi si svilupperà un piccolo linguaggio di programmazione usabile."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/0_audio.mp3": [
+            "PT",
+            "Em seguida, uma pequena linguagem de programação usável seria desenvolvida."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/5_audio.mp3": [
+            "RO",
+            "Apoi va fi dezvoltată o limbă de programare mică utilizabilă."
+        ],
+        "./audios_demo/novos/pt_all/audio_og_0.mp3": [
+            "PT",
+            "Ele abriu a porta devagar e percebeu que a sala estava estranhamente vazia."
+        ],
+        "./audios_demo/novos/pt_all/7_audio.mp3": [
+            "EN",
+            "He opened the door slowly and noticed the room was strangely empty."
+        ],
+        "./audios_demo/novos/pt_all/2_audio.mp3": [
+            "ES",
+            "Abrió la puerta despacio y notó que la sala estaba extrañamente vacía."
+        ],
+        "./audios_demo/novos/pt_all/21_audio.mp3": [
+            "FR",
+            "Il ouvrit la porte lentement et vit que la pièce était étrangement vide."
+        ],
+        "./audios_demo/novos/pt_all/4_audio.mp3": [
+            "IT",
+            "Aprì la porta piano e notò che la stanza era stranamente vuota."
+        ],
+        "./audios_demo/novos/pt_all/6_audio.mp3": [
+            "PT",
+            "Ele abriu a porta devagar e percebeu que a sala estava estranhamente vazia."
+        ],
+        "./audios_demo/novos/pt_all/29_audio.mp3": [
+            "RO",
+            "A deschis încet ușa și a văzut că încăperea era ciudat de goală."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/235/audio_og_0.mp3": [
+            "RO",
+            "Săbău spune că stilul de joc al lăncierilor este același."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/235/4_audio.mp3": [
+            "ES",
+            "La espada dice que el estilo de juego de los ladrones es el mismo."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/234/audio_og_0.mp3": [
+            "RO",
+            "Tergiversarea rezolvării lucrărilor ar putea duce la o situație grea."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/234/0_audio.mp3": [
+            "PT",
+            "A dificuldade de resolver o trabalho pode levar a uma situação difícil."
+        ],
+        "./audios_demo/novos/en_en/audio_og_6.mp3": [
+            "EN",
+            "It is one of the saints."
+        ],
+        "./audios_demo/novos/en_en/9_audio.mp3": [
+            "EN",
+            "Bright blue birds bring big berries."
+        ],
+        "./audios_demo/novos/es_es/audio_og_6.mp3": [
+            "ES",
+            "Es el nerd de la clase."
+        ],
+        "./audios_demo/novos/es_es/9_audio.mp3": [
+            "ES",
+            "Cuando cuentes cuentos, cuenta cuentos, cuentos, cuentas."
+        ],
+        "./audios_demo/novos/fr_fr/audio_og_24.mp3": [
+            "FR",
+            "C'est une belle chose."
+        ],
+        "./audios_demo/novos/fr_fr/24_audio.mp3": [
+            "FR",
+            "Un chasseur sachant chasser doit savoir chasser sans son chien."
+        ],
+        "./audios_demo/novos/it_it/audio_og_18.mp3": [
+            "IT",
+            "Le aperture ampie sono molto più tarde."
+        ],
+        "./audios_demo/novos/it_it/19_audio.mp3": [
+            "IT",
+            "Sopra la panca la capra campa, sotto la panca la capra crepa."
+        ],
+        "./audios_demo/novos/pt_pt/audio_og_24.mp3": [
+            "PT",
+            "Quais são as novidades pra hoje?"
+        ],
+        "./audios_demo/novos/pt_pt/28_audio.mp3": [
+            "PT",
+            "No silêncio da madrugada, a chuva batia na janela e trazia um ar de mistério."
+        ],
+        "./audios_demo/novos/ro_ro/audio_og_36.mp3": [
+            "RO",
+            "dar să nu ne învârtim în jurul cozii."
+        ],
+        "./audios_demo/novos/ro_ro/37_audio.mp3": [
+            "RO",
+            "șapte sași în șapte saci au sădiți șapte ceapași."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/65/audio_og_0.mp3": [
+            "ES",
+            "Hijo de una modista y de un administrativo ilustrado."
+        ],
+        "./audios_demo/teste_mestrado/400k_basev5_hb_3600/65/0_audio.mp3": [
+            "PT",
+            "Filho de uma modista e de um administrativo ilustrado."
+        ]
+    }
+</script>
+
+    <body>
+        <header>
+            <h1 class="only-en">LatinX: Aligning a Multilingual TTS Model with
+                Direct Preference Optimization</h1>
+            <h1 class="only-pt">LatinX: Alinhando um Modelo TTS Multilíngue com
+                DPO</h1>
+
+            <p>Luís Felipe Chary &amp; Miguel Arjona Ramírez<br>Universidade de
+                São Paulo</p>
+
+            <div class="header-links">
+                <a href="https://arxiv.org/abs/2509.05863" target="_blank"
+                    aria-label="Read the paper on arXiv">[Read the Paper]</a>
+                <a href="https://github.com/SEU_USUARIO/SEU_REPO"
+                    target="_blank" aria-label="View source on GitHub">[View on
+                    GitHub]</a>
+            </div>
+
+            <div class="lang-toggle" role="group"
+                aria-label="Language selection">
+                <span class="label">Language:</span>
+                <button type="button" id="btn-en" onclick="setLang('en')"
+                    aria-pressed="true" title="Switch to English">EN</button>
+                <button type="button" id="btn-pt" onclick="setLang('pt')"
+                    aria-pressed="false"
+                    title="Mudar para Português">PT</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Intro -->
+            <section id="introduction">
+                <p class="only-en">
+                    We introduce <strong>LatinX</strong>, a multilingual
+                    speech-to-speech/voice-cloning system that preserves a
+                    speaker’s vocal identity across languages.
+                    The model is aligned using <em>Direct Preference
+                        Optimization (DPO)</em>, which significantly improves
+                    intelligibility (lower WER) and voice preservation in human
+                    judgments.
+                </p>
+                <p class="only-pt">
+                    Apresentamos o <strong>LatinX</strong>, um sistema
+                    multilíngue de fala-para-fala/clonagem de voz que preserva a
+                    identidade vocal do falante entre idiomas.
+                    O modelo é alinhado com <em>Direct Preference Optimization
+                        (DPO)</em>, melhorando significativamente a
+                    inteligibilidade (WER menor) e a preservação de voz em
+                    avaliações humanas.
+                </p>
+            </section>
+
+            <!-- Showcase EN prompt -->
+            <section id="showcase-en">
+                <h2 class="only-en">Showcase: One Voice, Six Languages (EN
+                    prompt)</h2>
+                <h2 class="only-pt">Demonstração: Uma voz, seis idiomas (prompt
+                    EN)</h2>
+                <p class="muted only-en">Single English reference → outputs in
+                    EN/PT/ES/FR/IT/RO. Notice the consistent voice timbre.</p>
+                <p class="muted only-pt">Uma referência em inglês → saídas em
+                    EN/PT/ES/FR/IT/RO. Note a consistência do timbre.</p>
+
+                <div class="audio-card" role="group"
+                    aria-label="Showcase from English reference">
+                    <figure>
+                        <figcaption>Reference (English, source
+                            prompt)</figcaption>
+                        <audio controls preload="none"
+                            aria-label="Original English reference"
+                            src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/audio_og_0.mp3"></audio>
+                    </figure>
+
+                    <hr
+                        style="margin:16px 0; border:0; border-top:1px solid #eee" />
+
+                    <div class="audio-grid">
+                        <figure>
+                            <figcaption>LatinX (DPO) — Target:
+                                English</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated English audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/1_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="es">LatinX (DPO) — Target: Spanish
+                                (Español)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Spanish audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/4_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="fr">LatinX (DPO) — Target: French
+                                (Français)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated French audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/2_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="it">LatinX (DPO) — Target: Italian
+                                (Italiano)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Italian audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/3_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="pt">LatinX (DPO) — Target:
+                                Portuguese (Português)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Portuguese audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/0_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="ro">LatinX (DPO) — Target:
+                                Romanian (Română)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Romanian audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/35/5_audio.mp3"></audio>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Showcase PT prompt -->
+            <section id="showcase-pt">
+                <h2 class="only-en">Showcase: One Voice, Six Languages (PT
+                    prompt)</h2>
+                <h2 class="only-pt">Demonstração: Uma voz, seis idiomas (prompt
+                    PT)</h2>
+                <p class="muted only-en">Single Portuguese reference → outputs
+                    in EN/PT/ES/FR/IT/RO.</p>
+                <p class="muted only-pt">Uma referência em português → saídas em
+                    EN/PT/ES/FR/IT/RO.</p>
+
+                <div class="audio-card" role="group"
+                    aria-label="Showcase from Portuguese reference">
+                    <figure>
+                        <figcaption lang="pt">Reference (Portuguese, source
+                            prompt)</figcaption>
+                        <audio controls preload="none"
+                            aria-label="Original Portuguese reference"
+                            src="./audios_demo/novos/pt_all/audio_og_0.mp3"></audio>
+                    </figure>
+
+                    <hr
+                        style="margin:16px 0; border:0; border-top:1px solid #eee" />
+
+                    <div class="audio-grid">
+                        <figure>
+                            <figcaption>LatinX (DPO) — Target:
+                                English</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated English audio"
+                                src="./audios_demo/novos/pt_all/7_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="es">LatinX (DPO) — Target: Spanish
+                                (Español)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Spanish audio"
+                                src="./audios_demo/novos/pt_all/2_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="fr">LatinX (DPO) — Target: French
+                                (Français)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated French audio"
+                                src="./audios_demo/novos/pt_all/21_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="it">LatinX (DPO) — Target: Italian
+                                (Italiano)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Italian audio"
+                                src="./audios_demo/novos/pt_all/4_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="pt">LatinX (DPO) — Target:
+                                Portuguese (Português)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Portuguese audio"
+                                src="./audios_demo/novos/pt_all/6_audio.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption lang="ro">LatinX (DPO) — Target:
+                                Romanian (Română)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Romanian audio"
+                                src="./audios_demo/novos/pt_all/29_audio.mp3"></audio>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demos: Intelligibility -->
+            <section id="demos">
+                <h2>Audio Demonstrations</h2>
+
+                <h3>1) Intelligibility — very low WER</h3>
+                <p class="note">
+                    The DPO alignment provides a substantial, consistent
+                    reduction in WER. Below are two pairs from a low-resource
+                    source (Romanian).
+                    <br /><span class="muted">Note: include short transcripts
+                        near each audio if feasible.</span>
+                </p>
+
+                <div class="audio-grid">
+                    <div class="audio-card" role="group"
+                        aria-label="Romanian to Spanish intelligibility demo">
+                        <h4>Romanian → Spanish <a class="badge"
+                                href="https://arxiv.org/abs/2509.05863"
+                                target="_blank" rel="noopener"
+                                title="See cross-lingual WER breakdown">see
+                                Table 2 (WER)</a></h4>
+                        <figure>
+                            <figcaption>Reference (ro, source
+                                prompt)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original Romanian reference"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/235/audio_og_0.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output (es)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Spanish audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/235/4_audio.mp3"></audio>
+                        </figure>
+                    </div>
+
+                    <div class="audio-card" role="group"
+                        aria-label="Romanian to Portuguese intelligibility demo">
+                        <h4>Romanian → Portuguese <a class="badge"
+                                href="https://arxiv.org/abs/2509.05863"
+                                target="_blank" rel="noopener"
+                                title="See cross-lingual WER breakdown">see
+                                Table 2 (WER)</a></h4>
+                        <figure>
+                            <figcaption>Reference (ro, source
+                                prompt)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original Romanian reference"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/234/audio_og_0.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output (pt)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Portuguese audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/234/0_audio.mp3"></audio>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demos: Voice Cloning -->
+            <section id="voice-cloning">
+                <h3>2) Voice Similarity — preferred by human listeners</h3>
+                <p class="note">
+                    Objective metrics can miss perceptual similarity. In our
+                    tests, listeners <strong>consistently preferred
+                        LatinX</strong> for voice preservation.
+                </p>
+
+                <div class="audio-grid cloning-grid">
+                    <div class="audio-card" role="group"
+                        aria-label="English voice cloning">
+                        <h4>English (en → en)</h4>
+                        <figure>
+                            <figcaption>Reference voice</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original English reference"
+                                src="./audios_demo/novos/en_en/audio_og_6.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated English audio"
+                                src="./audios_demo/novos/en_en/9_audio.mp3"></audio>
+                        </figure>
+                    </div>
+
+                    <div class="audio-card" role="group"
+                        aria-label="Spanish voice cloning">
+                        <h4 lang="es">Spanish (es → es)</h4>
+                        <figure>
+                            <figcaption>Reference voice</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original Spanish reference"
+                                src="./audios_demo/novos/es_es/audio_og_6.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Spanish audio"
+                                src="./audios_demo/novos/es_es/9_audio.mp3"></audio>
+                        </figure>
+                    </div>
+
+                    <div class="audio-card" role="group"
+                        aria-label="French voice cloning">
+                        <h4 lang="fr">French (fr → fr)</h4>
+                        <figure>
+                            <figcaption>Reference voice</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original French reference"
+                                src="./audios_demo/novos/fr_fr/audio_og_24.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated French audio"
+                                src="./audios_demo/novos/fr_fr/24_audio.mp3"></audio>
+                        </figure>
+                    </div>
+
+                    <div class="audio-card" role="group"
+                        aria-label="Italian voice cloning">
+                        <h4 lang="it">Italian (it → it)</h4>
+                        <figure>
+                            <figcaption>Reference voice</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original Italian reference"
+                                src="./audios_demo/novos/it_it/audio_og_18.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Italian audio"
+                                src="./audios_demo/novos/it_it/19_audio.mp3"></audio>
+                        </figure>
+                    </div>
+
+                    <div class="audio-card" role="group"
+                        aria-label="Portuguese voice cloning">
+                        <h4 lang="pt">Portuguese (pt → pt)</h4>
+                        <figure>
+                            <figcaption>Reference voice</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original Portuguese reference"
+                                src="./audios_demo/novos/pt_pt/audio_og_24.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Portuguese audio"
+                                src="./audios_demo/novos/pt_pt/28_audio.mp3"></audio>
+                        </figure>
+                    </div>
+
+                    <div class="audio-card" role="group"
+                        aria-label="Romanian voice cloning">
+                        <h4 lang="ro">Romanian (ro → ro)</h4>
+                        <figure>
+                            <figcaption>Reference voice</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original Romanian reference"
+                                src="./audios_demo/novos/ro_ro/audio_og_36.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (DPO) output</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Romanian audio"
+                                src="./audios_demo/novos/ro_ro/37_audio.mp3"></audio>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demos: Naturalness -->
+            <section id="naturalness">
+                <h3>3) Naturalness — competitive cross-lingual synthesis</h3>
+                <div class="audio-grid">
+                    <div class="audio-card" role="group"
+                        aria-label="Spanish to Portuguese naturalness">
+                        <h4>Spanish → Portuguese <a class="badge"
+                                href="https://arxiv.org/abs/2509.05863"
+                                target="_blank" rel="noopener"
+                                title="See MOS summary">see Table 6
+                                (MOS)</a></h4>
+                        <figure>
+                            <figcaption>Original Spanish speaker</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Original Spanish reference"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/65/audio_og_0.mp3"></audio>
+                        </figure>
+                        <figure>
+                            <figcaption>LatinX (fine-tuned) output
+                                (pt)</figcaption>
+                            <audio controls preload="none"
+                                aria-label="Generated Portuguese audio"
+                                src="./audios_demo/teste_mestrado/400k_basev5_hb_3600/65/0_audio.mp3"></audio>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Abstract -->
+            <section id="abstract">
+                <h2 class="only-en">Abstract</h2>
+                <h2 class="only-pt">Resumo</h2>
+
+                <blockquote class="only-en">
+                    We introduce LatinX, a multilingual speech-to-speech
+                    translation system capable of generating audio in a target
+                    language while preserving the original speaker's voice
+                    characteristics. Our approach utilizes a decoder-only
+                    Transformer model that synthesizes discrete audio tokens
+                    conditioned on phonetic and acoustic prompts. We detail a
+                    three-stage training strategy: initial pre-training for
+                    text-to-audio mapping, supervised fine-tuning for voice
+                    cloning, and a final alignment stage using Direct Preference
+                    Optimization (DPO). The DPO stage refines the model by
+                    learning from a preference dataset automatically labeled
+                    based on Word Error Rate (WER) and speaker similarity
+                    metrics, significantly enhancing both intelligibility and
+                    voice preservation.
+                </blockquote>
+
+                <blockquote class="only-pt">
+                    Apresentamos o LatinX, um sistema multilíngue de
+                    fala-para-fala capaz de gerar áudio no idioma-alvo
+                    preservando as características da voz do falante original.
+                    Nossa abordagem utiliza um Transformer somente-decodificador
+                    que sintetiza <em>tokens</em> de áudio discretos
+                    condicionados por <em>prompts</em> fonéticos e acústicos.
+                    Detalhamos três estágios de treinamento: (i) pré-treino para
+                    mapeamento texto→áudio, (ii) <em>fine-tuning</em>
+                    supervisionado para clonagem de voz e (iii) alinhamento por
+                    preferências via Direct Preference Optimization (DPO). O
+                    estágio de DPO refina o modelo a partir de um conjunto de
+                    preferências rotulado automaticamente com base em WER e
+                    métricas de similaridade de locutor, melhorando
+                    significativamente a inteligibilidade e a preservação de
+                    voz.
+                </blockquote>
+            </section>
+
+            <!-- Notes on Evaluation -->
+            <section id="notes">
+                <h2 class="only-en">Notes on Evaluation</h2>
+                <h2 class="only-pt">Notas sobre a Avaliação</h2>
+
+                <ul class="note only-en">
+                    <li><strong>Human tests:</strong> ITU-T P.808 best practices
+                        (ACR/CCR, headset/env checks, gold/trap, qualif.). At
+                        least N≥3 valid ratings/clip; we report mean ± 95% CI.
+                        (See Tables 5–6 summaries.)</li>
+                    <li><strong>WER (intelligibility):</strong> measured with
+                        Whisper ASR; detailed cross-lingual breakdown in
+                        <em>Table 2</em>.</li>
+                    <li><strong>Objective speaker similarity:</strong> cosine
+                        similarity over TitaNet embeddings; summary in <em>Table
+                            4</em>.</li>
+                    <li><strong>Subjective similarity (SMOS) & naturalness
+                            (MOS):</strong> 5-point scale; summaries in
+                        <em>Tables 5</em> (SMOS) and <em>6</em> (MOS). Diverse
+                        rater pool, predominante EN/PT. </li>
+                </ul>
+
+                <ul class="note only-pt">
+                    <li><strong>Testes humanos:</strong> boas práticas ITU-T
+                        P.808 (ACR/CCR, checagens de headset/ambiente,
+                        itens-armadilha, qualificação). Pelo menos N≥3
+                        avaliações válidas por clipe; reportamos média ± IC95%.
+                        (Ver Tabelas 5–6.)</li>
+                    <li><strong>WER (inteligibilidade):</strong> medido com
+                        Whisper ASR; detalhamento por par cross-lingual na
+                        <em>Tabela 2</em>.</li>
+                    <li><strong>Similaridade objetiva:</strong> similaridade de
+                        cosseno sobre embeddings TitaNet; resumo na <em>Tabela
+                            4</em>.</li>
+                    <li><strong>Similaridade subjetiva (SMOS) & naturalidade
+                            (MOS):</strong> escala 1–5; resumos nas <em>Tabelas
+                            5</em> (SMOS) e <em>6</em> (MOS). Amostra diversa de
+                        avaliadores, com predominância EN/PT.</li>
+                </ul>
+
+                <p class="muted only-en">Training stages and DPO alignment are
+                    described in the paper (3-stage pipeline; DPO preference
+                    construction and 4k-step alignment).</p>
+                <p class="muted only-pt">Os estágios de treinamento e o
+                    alinhamento por DPO estão descritos no paper (pipeline em 3
+                    estágios; construção das preferências e alinhamento em ~4k
+                    passos).</p>
+            </section>
+
+            <section id="charts">
+                <h2 class="only-en">At-a-glance: SMOS & MOS (summary)</h2>
+                <h2 class="only-pt">Visão rápida: SMOS & MOS (resumo)</h2>
+                <p class="muted only-en">Averages across {EN, ES, FR, IT, PT}.
+                    See Tables 5–6 in the paper for details.</p>
+                <p class="muted only-pt">Médias em {EN, ES, FR, IT, PT}.
+                    Consulte as Tabelas 5–6 no paper para detalhes.</p>
+
+                <div id="chart-smos" aria-label="SMOS summary chart"></div>
+                <div id="chart-mos" aria-label="MOS summary chart"
+                    style="margin-top:24px"></div>
+            </section>
+
+            <script>
+    // Simple SVG bar chart (no external libs)
+    function drawBarChart(elId, title, labels, values, minY, maxY) {
+        const W=820, H=260, pad=40, barW=120, gap=30;
+        const n = labels.length;
+        const totalW = n*barW + (n-1)*gap;
+        const offsetX = (W-totalW)/2;
+        const scale = (val)=> H - pad - ( (val-minY)/(maxY-minY) )*(H-2*pad);
+
+        const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+        svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+        svg.setAttribute("width","100%"); // não defina height como "auto"
+
+        // Title
+        const t = document.createElementNS(svg.namespaceURI, "text");
+        t.setAttribute("x", W/2); t.setAttribute("y", 22);
+        t.setAttribute("text-anchor","middle"); t.setAttribute("font-size","16");
+        t.textContent = title; svg.appendChild(t);
+
+        // Axis line
+        const axis = document.createElementNS(svg.namespaceURI,"line");
+        axis.setAttribute("x1", pad); axis.setAttribute("x2", W-pad);
+        axis.setAttribute("y1", H-pad); axis.setAttribute("y2", H-pad);
+        axis.setAttribute("stroke","#aaa"); svg.appendChild(axis);
+
+        // Y ticks (min/mid/max)
+        [minY, (minY+maxY)/2, maxY].forEach((v,i)=>{
+        const y=scale(v);
+        const l = document.createElementNS(svg.namespaceURI,"line");
+        l.setAttribute("x1", pad); l.setAttribute("x2", W-pad);
+        l.setAttribute("y1", y); l.setAttribute("y2", y);
+        l.setAttribute("stroke", i===0||i===2 ? "#ccc" : "#e6e6e6");
+        l.setAttribute("stroke-dasharray", i===1 ? "4 4" : ""); svg.appendChild(l);
+
+        const tx = document.createElementNS(svg.namespaceURI,"text");
+        tx.setAttribute("x", pad-8); tx.setAttribute("y", y+4);
+        tx.setAttribute("text-anchor","end"); tx.setAttribute("font-size","12");
+        tx.textContent = v.toFixed(2); svg.appendChild(tx);
+        });
+
+        // Bars
+        labels.forEach((lab, i)=>{
+        const x = offsetX + i*(barW+gap);
+        const y = scale(values[i]);
+        const rect = document.createElementNS(svg.namespaceURI,"rect");
+        rect.setAttribute("x", x); rect.setAttribute("y", y);
+        rect.setAttribute("width", barW); rect.setAttribute("height", H-pad - y);
+        rect.setAttribute("fill", "currentColor"); // usa cor do tema
+        rect.setAttribute("opacity", 0.85);
+        svg.appendChild(rect);
+
+        const tx = document.createElementNS(svg.namespaceURI,"text");
+        tx.setAttribute("x", x+barW/2); tx.setAttribute("y", H-pad+16);
+        tx.setAttribute("text-anchor","middle"); tx.setAttribute("font-size","12");
+        tx.textContent = lab; svg.appendChild(tx);
+
+        const val = document.createElementNS(svg.namespaceURI,"text");
+        val.setAttribute("x", x+barW/2); val.setAttribute("y", y-6);
+        val.setAttribute("text-anchor","middle"); val.setAttribute("font-size","12");
+        val.textContent = values[i].toFixed(2); svg.appendChild(val);
+        });
+
+        document.getElementById(elId).innerHTML = "";
+        document.getElementById(elId).appendChild(svg);
+    }
+
+    // Data from arXiv paper (Tables 5–6 averages over EN,ES,FR,IT,PT)
+    // SMOS (Table 5)
+    const labels = ["Real","xTTSv2","LatinX FT","LatinX DPO"];
+    const SMOS = [4.07, 3.24, 3.63, 3.54]; // :contentReference[oaicite:1]{index=1}
+    // MOS (Table 6)
+    const MOS  = [3.78, 3.45, 3.41, 3.35]; // :contentReference[oaicite:2]{index=2}
+
+    drawBarChart("chart-smos", "SMOS (avg across EN, ES, FR, IT, PT) — see Table 5", labels, SMOS, 3.0, 4.2);
+    drawBarChart("chart-mos",  "MOS (avg across EN, ES, FR, IT, PT) — see Table 6", labels, MOS, 3.0, 4.0);
+    </script>
+
+            <section id="download">
+                <h2 class="only-en">Download all samples</h2>
+                <h2 class="only-pt">Baixar todos os áudios</h2>
+                <p class="muted only-en">A single ZIP with the exact same files
+                    used in this page.</p>
+                <p class="muted only-pt">Um único ZIP com os mesmos arquivos
+                    desta página.</p>
+                <p><a class="badge" href="assets/latinx_samples.zip"
+                        download>latinx_samples.zip</a></p>
+            </section>
+
+            <!-- Consent & Licensing -->
+            <section id="consent">
+                <h2 class="only-en">Consent & Licensing</h2>
+                <h2 class="only-pt">Consentimento & Licenças</h2>
+
+                <p class="note only-en">
+                    Reference utterances are shown for research demo purposes;
+                    subjective ratings were collected via a controlled web
+                    interface following ITU-T P.808 guidance. Please cite the
+                    paper when reusing these samples academically.
+                </p>
+                <p class="note only-pt">
+                    As falas de referência são exibidas apenas para fins de
+                    demonstração científica; as avaliações subjetivas foram
+                    coletadas por uma interface web controlada, seguindo as
+                    recomendações da ITU-T P.808. Por favor, cite o trabalho ao
+                    reutilizar estas amostras em contexto acadêmico.
+                </p>
+            </section>
+
+            <!-- Citation -->
+            <section id="citation">
+                <h2 class="only-en">How to Cite</h2>
+                <h2 class="only-pt">Como Citar</h2>
+                <div style="position:relative">
+                    <button class="copy-btn" onclick="copyBib()">Copy</button>
+                    <pre id="bibtex">
+@misc{chary2025latinxaligningmultilingualtts,
+  title        = {LatinX: Aligning a Multilingual TTS Model with Direct Preference Optimization},
+  author       = {Luis Felipe Chary and Miguel Arjona Ramirez},
+  year         = {2025},
+  eprint       = {2509.05863},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CL},
+  "url": "https://arxiv.org/abs/2509.05863",
+  "sameAs": ["https://arxiv.org/abs/2509.05863"]
+}
+        </pre>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Demo page for the LatinX TTS model • <a
+                    href="https://arxiv.org/abs/2509.05863" target="_blank"
+                    rel="noopener">arXiv:2509.05863</a></p>
+        </footer>
+
+        <script>
+    // i18n toggle
+    function setLang(lang) {
+        const root = document.documentElement;
+        root.setAttribute('lang', lang);
+        root.classList.toggle('lang-en', lang === 'en');
+        root.classList.toggle('lang-pt', lang === 'pt');
+
+        document.getElementById('btn-en').setAttribute('aria-pressed', String(lang === 'en'));
+        document.getElementById('btn-pt').setAttribute('aria-pressed', String(lang === 'pt'));
+
+        try { localStorage.setItem('latinx_demo_lang', lang); } catch(e) {}
+    }
+
+    // restore preferred lang
+    (function initLang(){
+    // prioridade: preferência salva > idioma do navegador (pt*) > en
+    let lang = 'en';
+    try {
+      const saved = localStorage.getItem('latinx_demo_lang');
+      if (saved) {
+        lang = saved;
+      } else if ((navigator.language || '').toLowerCase().startsWith('pt')) {
+        lang = 'pt';
+      }
+    } catch(e) {}
+    setLang(lang);
+  })();
+
+    // copy bibtex
+    function copyBib() {
+      const el = document.getElementById('bibtex');
+      const txt = el.innerText.trim();
+      navigator.clipboard.writeText(txt).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const old = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(()=> btn.textContent = old, 1000);
+      });
+    }
+
+    // Carrega transcripts.json e injeta a frase acima de cada <audio>
+  const TRANSCRIPTS = {}; // será preenchido do JSON
+
+  async function loadTranscriptsJSON() {
+    try {
+        // se estiver servindo por http/https, tenta buscar o arquivo normal
+        if (location.protocol === 'http:' || location.protocol === 'https:') {
+        const res = await fetch('transcripts.json', { cache: 'no-store' });
+        if (res.ok) {
+            Object.assign(TRANSCRIPTS, await res.json());
+            return;
+        }
+        }
+    } catch (e) { /* segue para o fallback */ }
+
+    // Fallback p/ file:// (ou se fetch falhar): ler <script type="application/json" id="transcripts-json-inline">
+        const inline = document.getElementById('transcripts-json-inline');
+        if (inline && inline.textContent.trim()) {
+            try {
+            Object.assign(TRANSCRIPTS, JSON.parse(inline.textContent));
+            } catch(e) { /* JSON inválido -> ignora */ }
+        }
+    }
+
+  // Normaliza a chave (aceita com/sem "./")
+  function normKey(src) {
+    if (!src) return '';
+    return src.trim().replace(/^\.\/+/, '');
+  }
+
+  // Tenta inferir "PT", "EN", etc. (se não vier no JSON)
+  function inferLang(fig, src) {
+    // 1) Se o figcaption tiver "(xx)"
+    const cap = fig?.querySelector('figcaption')?.textContent || '';
+    const m = cap.match(/\(([a-z]{2})\)/i);
+    if (m) return m[1].toUpperCase();
+
+    // 2) Pela pasta no caminho (ex.: /pt_pt/, /en_en/, /pt_all/)
+    const s = src.toLowerCase();
+    const patterns = [
+      {re:/\/pt(_pt|_all)?\//, code:'PT'},
+      {re:/\/en(_en)?\//,      code:'EN'},
+      {re:/\/es(_es)?\//,      code:'ES'},
+      {re:/\/fr(_fr)?\//,      code:'FR'},
+      {re:/\/it(_it)?\//,      code:'IT'},
+      {re:/\/ro(_ro)?\//,      code:'RO'},
+    ];
+    for (const p of patterns) if (p.re.test(s)) return p.code;
+
+    // 3) Se nada bater, não mostra prefixo
+    return '';
+  }
+
+  function makeInlineTranscript(lang, text) {
+    const p = document.createElement('p');
+    p.className = 'inline-tx';
+    const spanLang = document.createElement('span');
+    spanLang.className = 'lang';
+    const spanTx = document.createElement('span');
+    spanTx.className = 'tx';
+
+    if (lang) spanLang.textContent = lang + ':';
+    spanTx.textContent = text ? `"${text}"` : '';
+
+    if (lang) p.appendChild(spanLang);
+    p.appendChild(spanTx);
+    return p;
+  }
+
+  function getEntryForSrc(rawSrc) {
+    // tenta várias formas de chave
+    const k1 = rawSrc;
+    const k2 = normKey(rawSrc);
+    const k3 = k2.replace(/^\/+/, ''); // sem leading slash
+    return TRANSCRIPTS[k1] ?? TRANSCRIPTS[k2] ?? TRANSCRIPTS[k3];
+  }
+
+  function parseEntry(entry) {
+    // formatos aceitos no transcripts.json:
+    // 1) "texto"
+    // 2) ["PT", "texto"]
+    // 3) { "lang": "PT", "text": "texto" }
+    if (typeof entry === 'string') return { lang:'', text: entry };
+    if (Array.isArray(entry)) {
+      const [lang, text] = entry;
+      return { lang: (lang||'').toString().toUpperCase(), text: text||'' };
+    }
+    if (entry && typeof entry === 'object') {
+      return { lang: (entry.lang||'').toString().toUpperCase(), text: entry.text||'' };
+    }
+    return { lang:'', text:'' };
+  }
+
+  async function injectInlineTranscripts() {
+    await loadTranscriptsJSON();
+
+    document.querySelectorAll('figure').forEach(fig => {
+      const audio = fig.querySelector('audio[src]');
+      if (!audio) return;
+
+      // evita duplicar
+      if (audio.previousElementSibling?.classList?.contains('inline-tx')) return;
+
+      const rawSrc = audio.getAttribute('src') || '';
+      const entry = getEntryForSrc(rawSrc);
+      if (!entry) return; // se não houver no JSON, não insere nada
+
+      const { lang, text } = parseEntry(entry);
+      const finalLang = lang || inferLang(fig, rawSrc);
+
+      const line = makeInlineTranscript(finalLang, text);
+      audio.insertAdjacentElement('beforebegin', line);
+    });
+  }
+
+  // roda depois de montar a página
+  (function initInlineTx(){
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectInlineTranscripts);
+    } else {
+      injectInlineTranscripts();
+    }
+  })();
+  </script>
+    </body>
+</html>
