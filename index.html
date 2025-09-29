@@ -25,9 +25,11 @@
         <meta name="twitter:image" content="cover_og_clean.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="icon" href="favicon.ico" />
+        <link rel="stylesheet" href="styles.css">
 
         <!-- JSON-LD: ScholarlyArticle -->
         <script type="application/ld+json">
+            
   {
     "@context":"https://schema.org",
     "@type":"ScholarlyArticle",
@@ -43,156 +45,6 @@
     "sameAs":["https://arxiv.org/abs/2509.05863"]
   }
   </script>
-
-        <style>
-    :root { color-scheme: light dark; }
-    @media (prefers-color-scheme: dark) {
-      body { background:#0b0b0c; color:#e7e7ea; }
-      .audio-card, pre { background:#141416; border-color:#2a2a2e; }
-      h2 { border-bottom-color:#2a2a2e; }
-      .note { color:#a8a8ad; }
-      .muted { color:#a8a8ad; }
-      .lang-toggle button { background:#1f2023; border-color:#2a2a2e; }
-      .lang-toggle button[aria-pressed="true"] { background:#83839a; }
-    }
-
-    body {
-      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-      line-height: 1.6;
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 0 20px;
-      background:#fdfdfd;
-      color:#222;
-    }
-
-    header, section { margin-bottom: 40px; }
-    h1, h2, h3, h4 { line-height: 1.2; margin: 0.2em 0 0.4em; }
-    h1 { font-size: 2.2em; }
-    h2 { font-size: 1.8em; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 50px; }
-    h3 { font-size: 1.3em; }
-    h4 { font-size: 1.1em; margin-top: 0.2em; }
-
-    a { color:#0b66ff; text-decoration:none; }
-    a:hover { text-decoration:underline; }
-
-    .header-links a { margin-right: 20px; font-weight: 600; font-size: 1.05em; }
-
-    .audio-grid {
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-    }
-
-    .audio-card {
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 18px;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    figure { margin: 0; }
-    figcaption { font-size: .95em; color:#4a4949; margin-top: 8px; }
-
-    audio { width: 100%; margin-top: 8px; }
-    .badge { display:inline-block; font-size:.8em; padding:2px 8px; border:1px solid #ccc; border-radius:999px; margin-left:8px; }
-    .note { font-size:.92em; color:#4a4949; }
-    .muted { color:#4a4949; font-size:.95em; }
-
-    blockquote {
-      border-left: 4px solid #0b66ff;
-      padding-left: 15px;
-      font-style: italic;
-      color: #555;
-      margin: 20px 0;
-    }
-
-    pre {
-      background:#f4f4f4; padding:15px; border-radius:10px;
-      white-space: pre-wrap; word-wrap: break-word; font-size:.9em; border:1px solid #e9e9e9;
-      position: relative;
-    }
-    .copy-btn {
-      position:absolute; top:8px; right:8px;
-      font-size:.85em; padding:6px 10px; border:1px solid #ccc; background:#fff; border-radius:8px; cursor:pointer;
-    }
-
-    footer { text-align:center; margin-top: 50px; color: #888; }
-
-    /* i18n helpers */
-    .only-pt { display: none; }
-
-    /* i18n: tudo começa oculto e o estado (en/pt) decide o que aparece */
-    .only-en, .only-pt { display: none; }
-    .lang-en .only-en { display: revert; }  /* 'revert' respeita o display natural (h1=block etc.) */
-    .lang-pt .only-pt { display: revert; }
-
-    /* Botões de idioma com rótulo visível */
-    .lang-toggle { display:inline-flex; align-items:center; gap:10px; margin-top:10px; }
-    .lang-toggle .label { font-size:.95em; opacity:.8; }
-    .lang-toggle button {
-        padding:6px 12px; border:1px solid #ccc; background:#f5f5f7; border-radius:10px; cursor:pointer;
-        color:inherit;
-    }
-    .lang-toggle button[aria-pressed="true"] {
-        border-color:#0b66ff;
-        outline: 2px solid #0b66ff33;
-    }
-
-    /* Transcripts */
-    details.transcript {
-        margin-top: 8px;
-        border-left: 3px solid #e5e7eb;
-        padding: 8px 12px;
-        border-radius: 6px;
-        background: #f9fafb;
-    }
-    @media (prefers-color-scheme: dark) {
-        details.transcript { background:#121316; border-color:#2a2a2e; }
-    }
-    details.transcript summary {
-        cursor: pointer;
-        font-weight: 600;
-        list-style: none;
-    }
-    details.transcript[open] { border-left-color: #0b66ff; }
-    details.transcript .tx-body { margin-top: 6px; }
-    details.transcript .copy-tx {
-        float: right; margin-left: 8px;
-        font-size: .8em; padding: 4px 8px;
-        border: 1px solid #ccc; border-radius: 6px; background: transparent; cursor: pointer;
-    }
-    @media (prefers-color-scheme: dark) {
-        details.transcript .copy-tx { border-color:#3a3a3f; }
-    }
-    pre.transcript-text {
-        margin: 8px 0 0;
-        background: transparent;
-        white-space: pre-wrap; word-break: break-word;
-        font-size: .92em;
-    }
-
-    /* Inline transcript (minimal) */
-    .inline-tx{
-        font-size:.95em;
-        color:#151515;
-        margin:4px 0 6px;
-    }
-    .inline-tx .lang{
-        font-weight:600;
-        opacity:.75;
-        margin-right:6px;
-    }
-    .inline-tx .tx{
-        font-style:normal; /* só texto simples */
-    }
-    @media (prefers-color-scheme: dark){
-        .inline-tx{ color:#9595a2; }
-    }
-
-    #chart-smos svg, #chart-mos svg { display:block; width:100%; height:auto; }
-  </style>
     </head>
 
     <script id="transcripts-json-inline" type="application/json">
@@ -765,66 +617,29 @@
                 </blockquote>
             </section>
 
-            <!-- Notes on Evaluation -->
-            <section id="notes">
-                <h2 class="only-en">Notes on Evaluation</h2>
-                <h2 class="only-pt">Notas sobre a Avaliação</h2>
+            <section id="supplementary-data">
+                <h2 class="only-en">Supplementary Data</h2>
+                <h2 class="only-pt">Dados Suplementares</h2>
 
-                <ul class="note only-en">
-                    <li><strong>Human tests:</strong> ITU-T P.808 best practices
-                        (ACR/CCR, headset/env checks, gold/trap, qualif.). At
-                        least N≥3 valid ratings/clip; we report mean ± 95% CI.
-                        (See Tables 5–6 summaries.)</li>
-                    <li><strong>WER (intelligibility):</strong> measured with
-                        Whisper ASR; detailed cross-lingual breakdown in
-                        <em>Table 2</em>.</li>
-                    <li><strong>Objective speaker similarity:</strong> cosine
-                        similarity over TitaNet embeddings; summary in <em>Table
-                            4</em>.</li>
-                    <li><strong>Subjective similarity (SMOS) & naturalness
-                            (MOS):</strong> 5-point scale; summaries in
-                        <em>Tables 5</em> (SMOS) and <em>6</em> (MOS). Diverse
-                        rater pool, predominante EN/PT. </li>
-                </ul>
+                <p class="only-en">
+                    Detailed cross-lingual results, including full Word
+                    Error Rate (WER) and Similarity MOS (SMOS) matrices, are
+                    available on a separate page for detailed analysis.
+                </p>
+                <p class="only-pt">
+                    Resultados detalhados, incluindo as matrizes completas
+                    de Word Error Rate (WER) e Similarity MOS (SMOS), estão
+                    disponíveis em uma página separada para análise.
+                </p>
 
-                <ul class="note only-pt">
-                    <li><strong>Testes humanos:</strong> boas práticas ITU-T
-                        P.808 (ACR/CCR, checagens de headset/ambiente,
-                        itens-armadilha, qualificação). Pelo menos N≥3
-                        avaliações válidas por clipe; reportamos média ± IC95%.
-                        (Ver Tabelas 5–6.)</li>
-                    <li><strong>WER (inteligibilidade):</strong> medido com
-                        Whisper ASR; detalhamento por par cross-lingual na
-                        <em>Tabela 2</em>.</li>
-                    <li><strong>Similaridade objetiva:</strong> similaridade de
-                        cosseno sobre embeddings TitaNet; resumo na <em>Tabela
-                            4</em>.</li>
-                    <li><strong>Similaridade subjetiva (SMOS) & naturalidade
-                            (MOS):</strong> escala 1–5; resumos nas <em>Tabelas
-                            5</em> (SMOS) e <em>6</em> (MOS). Amostra diversa de
-                        avaliadores, com predominância EN/PT.</li>
-                </ul>
-
-                <p class="muted only-en">Training stages and DPO alignment are
-                    described in the paper (3-stage pipeline; DPO preference
-                    construction and 4k-step alignment).</p>
-                <p class="muted only-pt">Os estágios de treinamento e o
-                    alinhamento por DPO estão descritos no paper (pipeline em 3
-                    estágios; construção das preferências e alinhamento em ~4k
-                    passos).</p>
-            </section>
-
-            <section id="charts">
-                <h2 class="only-en">At-a-glance: SMOS & MOS (summary)</h2>
-                <h2 class="only-pt">Visão rápida: SMOS & MOS (resumo)</h2>
-                <p class="muted only-en">Averages across {EN, ES, FR, IT, PT}.
-                    See Tables 5–6 in the paper for details.</p>
-                <p class="muted only-pt">Médias em {EN, ES, FR, IT, PT}.
-                    Consulte as Tabelas 5–6 no paper para detalhes.</p>
-
-                <div id="chart-smos" aria-label="SMOS summary chart"></div>
-                <div id="chart-mos" aria-label="MOS summary chart"
-                    style="margin-top:24px"></div>
+                <div style="margin-top: 20px;">
+                    <a href="./supplementary-data.html" target="_blank"
+                        style="font-weight: 600; font-size: 1.1em; text-decoration: none; padding: 10px 18px; border: 1px solid #0b66ff; border-radius: 8px;">
+                        <span class="only-en">View Detailed Results</span>
+                        <span class="only-pt">Ver Resultados
+                            Detalhados</span>
+                    </a>
+                </div>
             </section>
 
             <script>
@@ -907,7 +722,8 @@
             <section id="download">
                 <h2 class="only-en">Download all samples</h2>
                 <h2 class="only-pt">Baixar todos os áudios</h2>
-                <p class="muted only-en">A single ZIP with the exact same files
+                <p class="muted only-en">A single ZIP with the exact same
+                    files
                     used in this page.</p>
                 <p class="muted only-pt">Um único ZIP com os mesmos arquivos
                     desta página.</p>
@@ -921,16 +737,19 @@
                 <h2 class="only-pt">Consentimento & Licenças</h2>
 
                 <p class="note only-en">
-                    Reference utterances are shown for research demo purposes;
+                    Reference utterances are shown for research demo
+                    purposes;
                     subjective ratings were collected via a controlled web
-                    interface following ITU-T P.808 guidance. Please cite the
+                    interface following ITU-T P.808 guidance. Please cite
+                    the
                     paper when reusing these samples academically.
                 </p>
                 <p class="note only-pt">
                     As falas de referência são exibidas apenas para fins de
                     demonstração científica; as avaliações subjetivas foram
                     coletadas por uma interface web controlada, seguindo as
-                    recomendações da ITU-T P.808. Por favor, cite o trabalho ao
+                    recomendações da ITU-T P.808. Por favor, cite o trabalho
+                    ao
                     reutilizar estas amostras em contexto acadêmico.
                 </p>
             </section>
@@ -940,7 +759,8 @@
                 <h2 class="only-en">How to Cite</h2>
                 <h2 class="only-pt">Como Citar</h2>
                 <div style="position:relative">
-                    <button class="copy-btn" onclick="copyBib()">Copy</button>
+                    <button class="copy-btn"
+                        onclick="copyBib()">Copy</button>
                     <pre id="bibtex">
 @misc{chary2025latinxaligningmultilingualtts,
   title        = {LatinX: Aligning a Multilingual TTS Model with Direct Preference Optimization},
@@ -963,170 +783,10 @@
                     rel="noopener">arXiv:2509.05863</a></p>
         </footer>
 
+        <script src="script.js"></script>
+
         <script>
-    // i18n toggle
-    function setLang(lang) {
-        const root = document.documentElement;
-        root.setAttribute('lang', lang);
-        root.classList.toggle('lang-en', lang === 'en');
-        root.classList.toggle('lang-pt', lang === 'pt');
 
-        document.getElementById('btn-en').setAttribute('aria-pressed', String(lang === 'en'));
-        document.getElementById('btn-pt').setAttribute('aria-pressed', String(lang === 'pt'));
-
-        try { localStorage.setItem('latinx_demo_lang', lang); } catch(e) {}
-    }
-
-    // restore preferred lang
-    (function initLang(){
-    // prioridade: preferência salva > idioma do navegador (pt*) > en
-    let lang = 'en';
-    try {
-      const saved = localStorage.getItem('latinx_demo_lang');
-      if (saved) {
-        lang = saved;
-      } else if ((navigator.language || '').toLowerCase().startsWith('pt')) {
-        lang = 'pt';
-      }
-    } catch(e) {}
-    setLang(lang);
-  })();
-
-    // copy bibtex
-    function copyBib() {
-      const el = document.getElementById('bibtex');
-      const txt = el.innerText.trim();
-      navigator.clipboard.writeText(txt).then(() => {
-        const btn = document.querySelector('.copy-btn');
-        const old = btn.textContent;
-        btn.textContent = 'Copied!';
-        setTimeout(()=> btn.textContent = old, 1000);
-      });
-    }
-
-    // Carrega transcripts.json e injeta a frase acima de cada <audio>
-  const TRANSCRIPTS = {}; // será preenchido do JSON
-
-  async function loadTranscriptsJSON() {
-    try {
-        // se estiver servindo por http/https, tenta buscar o arquivo normal
-        if (location.protocol === 'http:' || location.protocol === 'https:') {
-        const res = await fetch('transcripts.json', { cache: 'no-store' });
-        if (res.ok) {
-            Object.assign(TRANSCRIPTS, await res.json());
-            return;
-        }
-        }
-    } catch (e) { /* segue para o fallback */ }
-
-    // Fallback p/ file:// (ou se fetch falhar): ler <script type="application/json" id="transcripts-json-inline">
-        const inline = document.getElementById('transcripts-json-inline');
-        if (inline && inline.textContent.trim()) {
-            try {
-            Object.assign(TRANSCRIPTS, JSON.parse(inline.textContent));
-            } catch(e) { /* JSON inválido -> ignora */ }
-        }
-    }
-
-  // Normaliza a chave (aceita com/sem "./")
-  function normKey(src) {
-    if (!src) return '';
-    return src.trim().replace(/^\.\/+/, '');
-  }
-
-  // Tenta inferir "PT", "EN", etc. (se não vier no JSON)
-  function inferLang(fig, src) {
-    // 1) Se o figcaption tiver "(xx)"
-    const cap = fig?.querySelector('figcaption')?.textContent || '';
-    const m = cap.match(/\(([a-z]{2})\)/i);
-    if (m) return m[1].toUpperCase();
-
-    // 2) Pela pasta no caminho (ex.: /pt_pt/, /en_en/, /pt_all/)
-    const s = src.toLowerCase();
-    const patterns = [
-      {re:/\/pt(_pt|_all)?\//, code:'PT'},
-      {re:/\/en(_en)?\//,      code:'EN'},
-      {re:/\/es(_es)?\//,      code:'ES'},
-      {re:/\/fr(_fr)?\//,      code:'FR'},
-      {re:/\/it(_it)?\//,      code:'IT'},
-      {re:/\/ro(_ro)?\//,      code:'RO'},
-    ];
-    for (const p of patterns) if (p.re.test(s)) return p.code;
-
-    // 3) Se nada bater, não mostra prefixo
-    return '';
-  }
-
-  function makeInlineTranscript(lang, text) {
-    const p = document.createElement('p');
-    p.className = 'inline-tx';
-    const spanLang = document.createElement('span');
-    spanLang.className = 'lang';
-    const spanTx = document.createElement('span');
-    spanTx.className = 'tx';
-
-    if (lang) spanLang.textContent = lang + ':';
-    spanTx.textContent = text ? `"${text}"` : '';
-
-    if (lang) p.appendChild(spanLang);
-    p.appendChild(spanTx);
-    return p;
-  }
-
-  function getEntryForSrc(rawSrc) {
-    // tenta várias formas de chave
-    const k1 = rawSrc;
-    const k2 = normKey(rawSrc);
-    const k3 = k2.replace(/^\/+/, ''); // sem leading slash
-    return TRANSCRIPTS[k1] ?? TRANSCRIPTS[k2] ?? TRANSCRIPTS[k3];
-  }
-
-  function parseEntry(entry) {
-    // formatos aceitos no transcripts.json:
-    // 1) "texto"
-    // 2) ["PT", "texto"]
-    // 3) { "lang": "PT", "text": "texto" }
-    if (typeof entry === 'string') return { lang:'', text: entry };
-    if (Array.isArray(entry)) {
-      const [lang, text] = entry;
-      return { lang: (lang||'').toString().toUpperCase(), text: text||'' };
-    }
-    if (entry && typeof entry === 'object') {
-      return { lang: (entry.lang||'').toString().toUpperCase(), text: entry.text||'' };
-    }
-    return { lang:'', text:'' };
-  }
-
-  async function injectInlineTranscripts() {
-    await loadTranscriptsJSON();
-
-    document.querySelectorAll('figure').forEach(fig => {
-      const audio = fig.querySelector('audio[src]');
-      if (!audio) return;
-
-      // evita duplicar
-      if (audio.previousElementSibling?.classList?.contains('inline-tx')) return;
-
-      const rawSrc = audio.getAttribute('src') || '';
-      const entry = getEntryForSrc(rawSrc);
-      if (!entry) return; // se não houver no JSON, não insere nada
-
-      const { lang, text } = parseEntry(entry);
-      const finalLang = lang || inferLang(fig, rawSrc);
-
-      const line = makeInlineTranscript(finalLang, text);
-      audio.insertAdjacentElement('beforebegin', line);
-    });
-  }
-
-  // roda depois de montar a página
-  (function initInlineTx(){
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', injectInlineTranscripts);
-    } else {
-      injectInlineTranscripts();
-    }
-  })();
-  </script>
+</script>
     </body>
 </html>

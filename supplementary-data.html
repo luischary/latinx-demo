@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>LatinX: Supplementary Data</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <header>
+            <h1>LatinX: Supplementary Data</h1>
+            <p><a href="./index.html">&larr; Back to Demo Page</a></p>
+        </header>
+
+        <main>
+            <section id="summary-data">
+                <h2>Data Snapshots</h2>
+                <p class="caption-muted">These tables mirror headline numbers
+                    from the paper for a quick overview.</p>
+
+                <div class="card-grid">
+                    <div class="summary-card">
+                        <h3>Evaluator Demographics (N=306)</h3>
+                        <div class="table-wrap">
+                            <table id="tbl-demog" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Native language</th><th
+                                            scope="col">Female</th>
+                                        <th scope="col">Male</th><th
+                                            scope="col">Other</th><th
+                                            scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>WER — Summary</h3>
+                        <div class="table-wrap">
+                            <table id="tbl-wer-summary" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Language</th><th
+                                            scope="col">YourTTS</th>
+                                        <th scope="col">XTTSv2</th><th
+                                            scope="col">LatinX FT</th><th
+                                            scope="col">LatinX DPO</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>SMOS / MOS — Averages</h3>
+                        <div class="table-wrap">
+                            <table id="tbl-smos-mos-summary" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Metric</th><th
+                                            scope="col">Real</th>
+                                        <th scope="col">XTTSv2</th><th
+                                            scope="col">LatinX FT</th><th
+                                            scope="col">LatinX DPO</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="detailed-data">
+                <h2>Detailed Cross-Lingual Results</h2>
+                <div class="card-grid">
+
+                    <div class="summary-card">
+                        <h3>Detailed Word Error Rate (WER %)</h3>
+                        <p class="caption-muted">Lower is better. Empty cells
+                            denote pairs not tested by a baseline model.</p>
+                        <div class="table-wrap">
+                            <table class="data-table" id="tbl-wer-detail">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Src</th><th
+                                            scope="col">Tgt</th>
+                                        <th scope="col">YourTTS</th><th
+                                            scope="col">XTTSv2</th>
+                                        <th scope="col">LatinX
+                                            (Fine-tuned)</th><th
+                                            scope="col">LatinX (DPO)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Detailed Speaker Similarity (SMOS)</h3>
+                        <p class="caption-muted">Human evaluation scores (Mean ±
+                            95% CI). Higher is better.</p>
+                        <div class="table-wrap">
+                            <table class="data-table" id="tbl-smos-detail">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Src</th><th
+                                            scope="col">Tgt</th>
+                                        <th scope="col">Baseline (Real)</th><th
+                                            scope="col">XTTSv2</th>
+                                        <th scope="col">LatinX
+                                            (Fine-tuned)</th><th
+                                            scope="col">LatinX (DPO)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Detailed Objective Similarity (Sim-O / Sim-E)</h3>
+                        <p class="caption-muted">Cosine similarity scores.
+                            Higher is better. Best Sim-O per row is in
+                            <b>bold</b>. Sim-E values that surpass the best
+                            Sim-O are <u>underlined</u>.</p>
+                        <div class="table-wrap">
+                            <table class="data-table"
+                                id="tbl-similarity-detail">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Src</th><th
+                                            scope="col">Tgt</th>
+                                        <th scope="col">YourTTS</th><th
+                                            scope="col">XTTSv2</th>
+                                        <th scope="col">LatinX
+                                            (Fine-tuned)</th><th
+                                            scope="col">LatinX (DPO)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Detailed Naturalness (MOS)</h3>
+                        <p class="caption-muted">Human evaluation scores for
+                            naturalness (Mean ± 95% CI). Higher is better. Real
+                            audio scores are in <b>bold</b>. The best result
+                            among generated models is <u>underlined</u>.</p>
+                        <div class="table-wrap">
+                            <table class="data-table" id="tbl-mos-detail">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Src</th><th
+                                            scope="col">Tgt</th>
+                                        <th scope="col">Baseline (Real
+                                            Audio)</th>
+                                        <th scope="col">XTTSv2</th>
+                                        <th scope="col">LatinX
+                                            (Fine-tuned)</th><th
+                                            scope="col">LatinX (DPO)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script src="supplementary.js"></script>
+    </body>
+</html>

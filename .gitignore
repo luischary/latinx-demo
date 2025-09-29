@@ -1,6 +1,7 @@
 audios/*
 index_old.html
 index_v1.html
+index_v2.html
 langs.txt
 transcripts.json
 transcribe.py
@@ -13,3 +14,7 @@ cover_og_clean (1).png
 cover_fixed.png
 
 audio_manifest.txt
+
+*.csv
+tabela.txt
+tables.py

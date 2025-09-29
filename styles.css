@@ -1,0 +1,174 @@
+/* ==========================================================================
+   THEME VARIABLES & GLOBAL STYLES
+   ========================================================================== */
+
+:root { 
+    color-scheme: light dark;
+
+    /* Light Theme (Default) */
+    --bg-primary: #fdfdfd;
+    --bg-card: #ffffff;
+    --bg-subtle: #f4f4f4;
+    --text-primary: #222;
+    --text-muted: #4a4949;
+    --border-color: #ddd;
+    --border-subtle: #eee;
+    --link-color: #0b66ff;
+    --hover-bg: rgba(11, 102, 255, 0.05);
+    
+    --table-header-bg: #f8f9fa;
+    --table-header-border: #dbe1e8;
+    --table-header-text: #374151;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Theme Overrides */
+        --bg-primary: #0b0b0c;
+        --bg-card: #141416;
+        --bg-subtle: #1f2023;
+        --text-primary: #e7e7ea;
+        --text-muted: #a8a8ad;
+        --border-color: #2a2a2e;
+        --border-subtle: #2a2a2e;
+        --link-color: #4c9aff;
+        --hover-bg: rgba(59, 130, 246, 0.1);
+
+        --table-header-bg: #1f2937;
+        --table-header-border: #4b5563;
+        --table-header-text: #e5e7eb;
+    }
+}
+
+/* ==========================================================================
+   BASE & TYPOGRAPHY
+   ========================================================================== */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.6;
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 0 20px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+h1, h2, h3, h4 { line-height: 1.2; margin: 1em 0 0.5em; }
+h1 { font-size: 2.2em; }
+h2 { font-size: 1.8em; border-bottom: 2px solid var(--border-subtle); padding-bottom: 10px; margin-top: 50px; }
+h3 { font-size: 1.3em; border-bottom: none; }
+h4 { font-size: 1.1em; }
+
+a { color: var(--link-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+p, ul { margin-bottom: 1.2em; }
+
+/* ==========================================================================
+   COMPONENTS & LAYOUT
+   ========================================================================== */
+
+header, section { margin-bottom: 40px; }
+footer { text-align:center; margin-top: 50px; color: var(--text-muted); }
+
+.note, .muted, .caption-muted { 
+    font-size: .92em; 
+    color: var(--text-muted); 
+}
+.caption-muted { margin-top: -0.8em; margin-bottom: 1.5em; }
+
+/* Unified Cards (for .audio-card and .summary-card) */
+.audio-card, .summary-card {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    background-color: var(--bg-card);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.card-grid { display: grid; gap: 24px; }
+.audio-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* BibTeX block */
+pre {
+    background: var(--bg-subtle); 
+    padding: 15px; 
+    border-radius: 10px;
+    white-space: pre-wrap; 
+    word-wrap: break-word; 
+    font-size: .9em; 
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+/* ==========================================================================
+   UNIFIED TABLE STYLES
+   ========================================================================== */
+
+.table-wrap { overflow-x: auto; }
+.data-table, #data-snapshots table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-variant-numeric: tabular-nums;
+}
+.data-table thead th, #data-snapshots table thead th {
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    background-color: var(--table-header-bg);
+    border-bottom: 2px solid var(--table-header-border);
+    color: var(--table-header-text);
+    position: sticky; top: 0;
+}
+.data-table tbody td, #data-snapshots table tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+.data-table tbody tr:last-child td, #data-snapshots table tbody tr:last-child td { border-bottom: 0; }
+.data-table tbody tr:hover td, #data-snapshots table tbody tr:hover td { background-color: var(--hover-bg); }
+
+/* Styles for detailed tables */
+.group-header th {
+    background-color: var(--table-header-bg);
+    font-weight: 700;
+    padding: 8px 12px;
+    border-top: 2px solid var(--table-header-border);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--table-header-text);
+}
+.ci { font-size: 0.9em; opacity: 0.75; padding-left: 2px; }
+
+/* Column alignment */
+.data-table th:nth-child(n+2), .data-table td:nth-child(n+2),
+#data-snapshots table th:nth-child(n+2), #data-snapshots table td:nth-child(n+2) { text-align: right; }
+
+.data-table th:first-child, .data-table td:first-child,
+#data-snapshots table th:first-child, #data-snapshots table td:first-child { text-align: left; }
+
+/* ==========================================================================
+   LANGUAGE TOGGLE (i18n)
+   ========================================================================== */
+
+.only-en, .only-pt { display: none; }
+.lang-en .only-en { display: revert; }
+.lang-pt .only-pt { display: revert; }
+
+.lang-toggle { display:inline-flex; align-items:center; gap:10px; margin-top:10px; }
+.lang-toggle .label { font-size:.95em; opacity:.8; }
+.lang-toggle button {
+    padding:6px 12px; border:1px solid var(--border-color); background: var(--bg-card); border-radius:10px; cursor:pointer;
+    color:inherit;
+}
+.lang-toggle button[aria-pressed="true"] {
+    border-color:var(--link-color);
+    outline: 2px solid var(--link-color)33;
+}
+@media(prefers-color-scheme: dark) {
+    .lang-toggle button { background: #1f2023; }
+    .lang-toggle button[aria-pressed="true"] { background:#83839a; }
+}
