@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>LatinX: Multilingual TTS with DPO — Audio Demos</title>
         <meta name="description"
-            content="LatinX: multilingual speech-to-speech/voice cloning with Direct Preference Optimization. Audio demos across EN, PT, ES, FR, IT, RO." />
+            content="LatinX: multilingual voice-preserving TTS for cascaded speech-to-speech translation research, aligned with Direct Preference Optimization. Audio demos across EN, PT, ES, FR, IT, RO." />
 
         <!-- Open Graph / Twitter -->
         <meta property="og:title"
@@ -24,7 +24,6 @@
         <meta property="og:image:height" content="630" />
         <meta name="twitter:image" content="cover_og_clean.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="icon" href="favicon.ico" />
         <link rel="stylesheet" href="styles.css">
 
         <!-- JSON-LD: ScholarlyArticle -->
@@ -38,7 +37,6 @@
       {"@type":"Person","name":"Luís Felipe Chary"},
       {"@type":"Person","name":"Miguel Arjona Ramírez"}
     ],
-    "datePublished":"2025-09-xx",
     "publisher":{"@type":"CollegeOrUniversity","name":"Universidade de São Paulo"},
     "url":"https://arxiv.org/abs/2509.05863",
     "inLanguage":"en",
@@ -214,21 +212,25 @@
             <section id="introduction">
                 <p class="only-en">
                     We introduce <strong>LatinX</strong>, a multilingual
-                    speech-to-speech/voice-cloning system that preserves a
-                    speaker’s vocal identity across languages.
-                    The model is aligned using <em>Direct Preference
-                        Optimization (DPO)</em>, which significantly improves
-                    intelligibility (lower WER) and voice preservation in human
-                    judgments.
+                    voice-preserving TTS model designed for cascaded
+                    speech-to-speech translation research. Given text in a
+                    target language and optional reference audio, LatinX
+                    generates speech while preserving speaker identity across
+                    languages. The model is aligned using <em>Direct Preference
+                        Optimization (DPO)</em>, improving intelligibility
+                    (lower WER) and perceived voice preservation in the
+                    reported evaluations.
                 </p>
                 <p class="only-pt">
-                    Apresentamos o <strong>LatinX</strong>, um sistema
-                    multilíngue de fala-para-fala/clonagem de voz que preserva a
-                    identidade vocal do falante entre idiomas.
-                    O modelo é alinhado com <em>Direct Preference Optimization
-                        (DPO)</em>, melhorando significativamente a
-                    inteligibilidade (WER menor) e a preservação de voz em
-                    avaliações humanas.
+                    Apresentamos o <strong>LatinX</strong>, um modelo TTS
+                    multilíngue com preservação de voz, projetado para pesquisa
+                    em pipelines cascaded de tradução fala-para-fala. Dado um
+                    texto no idioma-alvo e, opcionalmente, um áudio de
+                    referência, o LatinX gera fala preservando a identidade vocal
+                    entre idiomas. O modelo é alinhado com <em>Direct Preference
+                        Optimization (DPO)</em>, melhorando a inteligibilidade
+                    (WER menor) e a preservação perceptual de voz nas avaliações
+                    reportadas.
                 </p>
             </section>
 
@@ -582,38 +584,62 @@
                 <h2 class="only-pt">Resumo</h2>
 
                 <blockquote class="only-en">
-                    We introduce LatinX, a multilingual speech-to-speech
-                    translation system capable of generating audio in a target
-                    language while preserving the original speaker's voice
-                    characteristics. Our approach utilizes a decoder-only
-                    Transformer model that synthesizes discrete audio tokens
-                    conditioned on phonetic and acoustic prompts. We detail a
-                    three-stage training strategy: initial pre-training for
-                    text-to-audio mapping, supervised fine-tuning for voice
-                    cloning, and a final alignment stage using Direct Preference
-                    Optimization (DPO). The DPO stage refines the model by
-                    learning from a preference dataset automatically labeled
-                    based on Word Error Rate (WER) and speaker similarity
-                    metrics, significantly enhancing both intelligibility and
-                    voice preservation.
+                    We present LatinX, a practical multilingual text-to-speech
+                    (TTS) system designed as the speech generation component of
+                    a cascaded speech-to-speech translation pipeline, with the
+                    goal of preserving speaker identity across languages. The
+                    system integrates a grapheme-to-phoneme model, a neural
+                    audio codec, and an autoregressive Transformer-based
+                    generator into a unified pipeline.
+                    To improve intelligibility and speaker similarity in
+                    real-world multilingual scenarios, we investigate the use of
+                    Direct Preference Optimization (DPO) as an alignment
+                    strategy applied on top of a supervised fine-tuned model.
+                    Preference data is automatically constructed using objective
+                    metrics, enabling scalable optimization without manual
+                    annotation.
+                    The system is trained on a large-scale multilingual dataset
+                    (9,700+ hours) with a strong focus on Portuguese and
+                    evaluated on a diverse cross-lingual benchmark with both
+                    objective metrics (WER, speaker similarity) and human
+                    evaluations (MOS, SMOS).
+                    Results show consistent improvements in intelligibility and
+                    automatic speaker-similarity metrics across languages, while
+                    human evaluations reveal mixed perceptual effects and
+                    highlight divergences between objective and subjective
+                    metrics in multilingual TTS systems. These findings provide
+                    practical insights for deploying aligned speech generation
+                    systems in real-world multilingual applications.
                 </blockquote>
 
                 <blockquote class="only-pt">
-                    Apresentamos o LatinX, um sistema multilíngue de
-                    fala-para-fala capaz de gerar áudio no idioma-alvo
-                    preservando as características da voz do falante original.
-                    Nossa abordagem utiliza um Transformer somente-decodificador
-                    que sintetiza <em>tokens</em> de áudio discretos
-                    condicionados por <em>prompts</em> fonéticos e acústicos.
-                    Detalhamos três estágios de treinamento: (i) pré-treino para
-                    mapeamento texto→áudio, (ii) <em>fine-tuning</em>
-                    supervisionado para clonagem de voz e (iii) alinhamento por
-                    preferências via Direct Preference Optimization (DPO). O
-                    estágio de DPO refina o modelo a partir de um conjunto de
-                    preferências rotulado automaticamente com base em WER e
-                    métricas de similaridade de locutor, melhorando
-                    significativamente a inteligibilidade e a preservação de
-                    voz.
+                    Apresentamos o LatinX, um sistema prático de texto-para-fala
+                    (TTS) multilíngue projetado como o componente de geração de
+                    fala de um pipeline em cascata de tradução fala-para-fala,
+                    com o objetivo de preservar a identidade do falante entre
+                    idiomas. O sistema integra um modelo grafema-para-fonema, um
+                    codec neural de áudio e um gerador autoregressivo baseado em
+                    Transformer em um pipeline unificado.
+                    Para melhorar a inteligibilidade e a similaridade do falante
+                    em cenários multilíngues do mundo real, investigamos o uso
+                    de Direct Preference Optimization (DPO) como estratégia de
+                    alinhamento aplicada sobre um modelo previamente ajustado por
+                    fine-tuning supervisionado. Os dados de preferência são
+                    construídos automaticamente usando métricas objetivas,
+                    permitindo otimização escalável sem anotação manual.
+                    O sistema é treinado em um conjunto de dados multilíngue de
+                    larga escala (9.700+ horas), com forte foco em português, e
+                    avaliado em um benchmark cross-lingual diverso com métricas
+                    objetivas (WER, similaridade do falante) e avaliações
+                    humanas (MOS, SMOS).
+                    Os resultados mostram melhorias consistentes em
+                    inteligibilidade e em métricas automáticas de similaridade do
+                    falante entre idiomas, enquanto as avaliações humanas revelam
+                    efeitos perceptuais mistos e destacam divergências entre
+                    métricas objetivas e subjetivas em sistemas TTS
+                    multilíngues. Esses achados oferecem insights práticos para
+                    a implantação de sistemas alinhados de geração de fala em
+                    aplicações multilíngues do mundo real.
                 </blockquote>
             </section>
 
@@ -711,9 +737,9 @@
     // Data from arXiv paper (Tables 5–6 averages over EN,ES,FR,IT,PT)
     // SMOS (Table 5)
     const labels = ["Real","xTTSv2","LatinX FT","LatinX DPO"];
-    const SMOS = [4.07, 3.24, 3.63, 3.54]; // :contentReference[oaicite:1]{index=1}
+    const SMOS = [4.07, 3.24, 3.63, 3.54];
     // MOS (Table 6)
-    const MOS  = [3.78, 3.45, 3.41, 3.35]; // :contentReference[oaicite:2]{index=2}
+    const MOS  = [3.78, 3.45, 3.41, 3.35];
 
     drawBarChart("chart-smos", "SMOS (avg across EN, ES, FR, IT, PT) — see Table 5", labels, SMOS, 3.0, 4.2);
     drawBarChart("chart-mos",  "MOS (avg across EN, ES, FR, IT, PT) — see Table 6", labels, MOS, 3.0, 4.0);
@@ -769,8 +795,7 @@
   eprint       = {2509.05863},
   archivePrefix= {arXiv},
   primaryClass = {cs.CL},
-  "url": "https://arxiv.org/abs/2509.05863",
-  "sameAs": ["https://arxiv.org/abs/2509.05863"]
+  url          = {https://arxiv.org/abs/2509.05863}
 }
         </pre>
                 </div>

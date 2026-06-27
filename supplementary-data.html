@@ -44,7 +44,7 @@
                             <table id="tbl-wer-summary" class="data-table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Language</th><th
+                                        <th scope="col">Language / Group</th><th
                                             scope="col">YourTTS</th>
                                         <th scope="col">XTTSv2</th><th
                                             scope="col">LatinX FT</th><th
@@ -57,12 +57,55 @@
                     </div>
 
                     <div class="summary-card">
-                        <h3>SMOS / MOS — Averages</h3>
+                        <h3>Objective Similarity — Summary</h3>
+                        <p class="caption-muted">Cosine similarity. For LatinX,
+                            cells report Sim-O / Sim-E.</p>
                         <div class="table-wrap">
-                            <table id="tbl-smos-mos-summary" class="data-table">
+                            <table id="tbl-objective-sim-summary"
+                                class="data-table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Metric</th><th
+                                        <th scope="col">Language / Group</th><th
+                                            scope="col">YourTTS</th>
+                                        <th scope="col">XTTSv2</th><th
+                                            scope="col">LatinX FT</th><th
+                                            scope="col">LatinX DPO</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>SMOS — Summary</h3>
+                        <p class="caption-muted">Human speaker-similarity scores
+                            (Mean ± 95% CI). Higher is better.</p>
+                        <div class="table-wrap">
+                            <table id="tbl-smos-summary" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Language / Group</th><th
+                                            scope="col">Real</th>
+                                        <th scope="col">XTTSv2</th><th
+                                            scope="col">LatinX FT</th><th
+                                            scope="col">LatinX DPO</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>MOS — Summary</h3>
+                        <p class="caption-muted">Human naturalness scores (Mean
+                            ± 95% CI). Higher is better.</p>
+                        <div class="table-wrap">
+                            <table id="tbl-mos-summary" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Language / Group</th><th
                                             scope="col">Real</th>
                                         <th scope="col">XTTSv2</th><th
                                             scope="col">LatinX FT</th><th

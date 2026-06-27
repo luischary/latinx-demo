@@ -61,7 +61,7 @@ async function loadTranscripts () {
   // 1. Tenta carregar o arquivo JSON externo
   try {
     if (location.protocol === 'http:' || location.protocol === 'https:') {
-      const res = await fetch('transcripts.json', { cache: 'no-store' })
+      const res = await fetch('transcriptions_.json', { cache: 'no-store' })
       if (res.ok) {
         Object.assign(TRANSCRIPTS, await res.json())
         return
@@ -69,7 +69,7 @@ async function loadTranscripts () {
     }
   } catch (e) {
     console.warn(
-      'Could not fetch transcripts.json, falling back to inline script.',
+      'Could not fetch transcriptions_.json, falling back to inline script.',
       e
     )
   }
