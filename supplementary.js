@@ -14,11 +14,39 @@ const WER_SUMMARY = [
   ['fr', 17.65, 11.14, 17.88, 13.02],
   ['it', null, 12.38, 14.94, 8.81],
   ['pt', 14.83, 10.95, 11.13, 6.37],
-  ['ro', null, null, 28.85, 14.68]
+  ['ro', null, null, 28.85, 14.68],
+  ['Avg. (pt,en,fr)', 14.93, 11.01, 14.37, 9.23],
+  ['Avg. (pt,en,fr,es,it)', null, 10.65, 14.58, 8.95],
+  ['Avg. (all)', null, null, 16.96, 9.9]
 ]
-const SMOS_MOS_SUMMARY = [
-  ['SMOS', 4.07, 3.24, 3.63, 3.54],
-  ['MOS', 3.78, 3.45, 3.41, 3.35]
+const OBJECTIVE_SIM_SUMMARY = [
+  ['en', 0.35, 0.49, [0.39, 0.47], [0.42, 0.49]],
+  ['es', null, 0.58, [0.45, 0.55], [0.49, 0.57]],
+  ['fr', 0.42, 0.54, [0.41, 0.51], [0.45, 0.53]],
+  ['it', null, 0.58, [0.44, 0.55], [0.47, 0.57]],
+  ['pt', 0.38, 0.58, [0.44, 0.55], [0.48, 0.58]],
+  ['ro', null, null, [0.44, 0.55], [0.48, 0.57]],
+  ['Avg. (pt,en,fr)', 0.38, 0.53, [0.41, 0.51], [0.45, 0.53]],
+  ['Avg. (pt,en,fr,es,it)', null, 0.55, [0.43, 0.52], [0.46, 0.55]],
+  ['Avg. (all)', null, null, [0.43, 0.53], [0.47, 0.55]]
+]
+const SMOS_SUMMARY = [
+  ['en', [4.12, 0.2], [3.18, 0.22], [3.56, 0.19], [3.48, 0.18]],
+  ['es', [4.09, 0.17], [3.25, 0.22], [3.76, 0.18], [3.79, 0.17]],
+  ['fr', [4.05, 0.19], [3.25, 0.21], [3.58, 0.18], [3.47, 0.2]],
+  ['it', [4.06, 0.2], [3.25, 0.22], [3.71, 0.17], [3.43, 0.18]],
+  ['pt', [4.05, 0.19], [3.28, 0.21], [3.54, 0.18], [3.52, 0.19]],
+  ['ro', [3.98, 0.2], null, [3.6, 0.18], [3.87, 0.16]],
+  ['Avg. (en,es,fr,it,pt)', [4.07, 0.08], [3.24, 0.09], [3.63, 0.08], [3.54, 0.08]]
+]
+const MOS_SUMMARY = [
+  ['en', [3.61, 0.24], [3.17, 0.22], [3.17, 0.2], [3.17, 0.2]],
+  ['es', [3.77, 0.2], [3.73, 0.2], [3.71, 0.17], [3.48, 0.18]],
+  ['fr', [3.8, 0.22], [3.49, 0.18], [3.49, 0.17], [3.27, 0.17]],
+  ['it', [3.84, 0.21], [3.51, 0.2], [3.33, 0.19], [3.51, 0.17]],
+  ['pt', [3.88, 0.17], [3.36, 0.21], [3.35, 0.18], [3.31, 0.19]],
+  ['ro', [3.46, 0.24], null, [3.61, 0.16], [3.31, 0.18]],
+  ['Avg. (en,es,fr,it,pt)', [3.78, 0.09], [3.45, 0.09], [3.41, 0.08], [3.35, 0.08]]
 ]
 
 // --- DADOS DETALHADOS ---
@@ -192,7 +220,7 @@ function formatCell (value, digits = 2) {
 }
 
 // Função para preencher tabelas simples (resumos)
-function fillSimpleTable (tableId, data, hasHeader = false) {
+function fillSimpleTable (tableId, data, digits = 2) {
   const tb = document.querySelector(`#${tableId} tbody`)
   if (!tb) return
   tb.innerHTML = data
@@ -203,7 +231,7 @@ function fillSimpleTable (tableId, data, hasHeader = false) {
             cell === null || cell === undefined
               ? '<span class="muted">—</span>'
               : typeof cell === 'number'
-              ? cell.toFixed(2)
+              ? cell.toFixed(digits)
               : cell
           return `<td>${content}</td>`
         })
@@ -213,10 +241,37 @@ function fillSimpleTable (tableId, data, hasHeader = false) {
     .join('')
 }
 
+function formatMeanCiCell (value) {
+  return value == null || value === undefined
+    ? '<span class="muted">—</span>'
+    : `${formatCell(value[0])}<span class="ci">&nbsp;&plusmn; ${formatCell(
+        value[1]
+      )}</span>`
+}
+
+function formatSimSummaryCell (value) {
+  if (value == null || value === undefined) return '<span class="muted">—</span>'
+  return Array.isArray(value) ? `${formatCell(value[0])} / ${formatCell(value[1])}` : formatCell(value)
+}
+
+function fillSummaryTable (tableId, data, formatter) {
+  const tb = document.querySelector(`#${tableId} tbody`)
+  if (!tb) return
+  tb.innerHTML = data
+    .map(row => {
+      const [label, ...values] = row
+      const cells = values.map(value => `<td>${formatter(value)}</td>`).join('')
+      return `<tr><td>${label}</td>${cells}</tr>`
+    })
+    .join('')
+}
+
 function renderSummaryTables () {
-  fillSimpleTable('tbl-demog', DEMOG_DATA)
+  fillSimpleTable('tbl-demog', DEMOG_DATA, 0)
   fillSimpleTable('tbl-wer-summary', WER_SUMMARY)
-  fillSimpleTable('tbl-smos-mos-summary', SMOS_MOS_SUMMARY)
+  fillSummaryTable('tbl-objective-sim-summary', OBJECTIVE_SIM_SUMMARY, formatSimSummaryCell)
+  fillSummaryTable('tbl-smos-summary', SMOS_SUMMARY, formatMeanCiCell)
+  fillSummaryTable('tbl-mos-summary', MOS_SUMMARY, formatMeanCiCell)
 }
 
 function renderGroupedWerTable () {

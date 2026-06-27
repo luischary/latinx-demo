@@ -1,103 +1,107 @@
 # LatinX: Aligning a Multilingual TTS Model with Direct Preference Optimization
 
-**Audio demos:** https://luischary.github.io/latinx-demo/  
-**Paper (arXiv):** https://arxiv.org/abs/2509.05863
+**Demo page:** https://luischary.github.io/latinx-demo/  
+**Supplementary tables:** https://luischary.github.io/latinx-demo/supplementary-data.html  
+**Paper/preprint:** https://arxiv.org/abs/2509.05863  
+**Inference repository:** https://github.com/luischary/latinx-inference  
+**Model artifacts:** https://huggingface.co/LuisChary/LatinX-TTS
 
-LatinX is a multilingual text-to-speech (TTS) model designed as the core of a cascaded speech-to-speech (S2S) translation system. It generates target-language speech **while preserving the source speaker’s identity**, and is aligned with **Direct Preference Optimization (DPO)** to explicitly optimize for **intelligibility (WER)** and **speaker similarity**.
+LatinX is a multilingual text-to-speech (TTS) system designed as the speech generation component of a cascaded speech-to-speech translation pipeline, with the goal of preserving speaker identity across languages. The system integrates a grapheme-to-phoneme model, a neural audio codec, and an autoregressive Transformer-based generator, and studies Direct Preference Optimization (DPO) as an alignment strategy for improving intelligibility and speaker similarity.
 
+The work was accepted at **BRACIS 2026**. The demo and supplementary material are intended to accompany the paper with public listening examples and metric tables; they do not constitute an end-to-end evaluation of a complete speech-to-speech translation system.
 
+## What is included here
 
-## Why this matters
+This repository hosts the public GitHub Pages material for the LatinX paper:
 
-Conventional S2S systems often trade off intelligibility, naturalness, and preservation of the speaker’s voice. LatinX shows that **preference-aligned** generative TTS can reduce WER and strengthen perceived voice similarity across **English + Romance languages** (EN, ES, FR, IT, PT, RO), with especially strong gains for **lower-resource directions** (e.g., Romanian).
+- a landing/demo page with selected held-out audio examples;
+- a supplementary-data page with detailed and summary metric tables;
+- static JavaScript/HTML/CSS used to render the tables and audio examples;
+- packaged demo samples for convenient download.
 
+For implementation and artifact download utilities, use the separate inference repository:
 
+```text
+https://github.com/luischary/latinx-inference
+```
 
-## Contributions (high level)
+## Scope and framing
 
-- A **multilingual, voice-preserving TTS** model evaluated across six languages.
-- A **three-stage training pipeline** (Pre-training → SFT for zero-shot voice cloning → DPO alignment).
-- An **automatic preference dataset** construction procedure that combines objective filters (WER & speaker-similarity) with a **Pareto-dominance** label rule, enabling **stable DPO** for audio generation.
-- A cross-lingual evaluation that highlights the **gap between objective and subjective** metrics for speaker similarity (SMOS).
+LatinX is evaluated as a **voice-preserving multilingual TTS / speech generation component**, not as a full end-to-end speech-to-speech translation pipeline. ASR front-end errors and translation quality are outside the scope of this demo and of the reported metric tables.
 
+The supplementary tables mirror the paper's evaluation setup, including:
 
+- Word Error Rate (WER) for intelligibility;
+- objective speaker similarity using TitaNet cosine similarity;
+- Similarity MOS (SMOS) from human evaluation;
+- Mean Opinion Score (MOS) for naturalness;
+- comparable language-group averages for baselines with different language coverage.
+
+## Languages and baselines
+
+The evaluation covers six languages:
+
+```text
+en, es, fr, it, pt, ro
+```
+
+The paper compares:
+
+- YourTTS;
+- XTTSv2;
+- LatinX (Fine-tuned);
+- LatinX (DPO).
+
+Because baseline systems differ in language support, some summary rows report averages over comparable language subsets:
+
+- `Avg. (pt,en,fr)` — comparable with YourTTS;
+- `Avg. (pt,en,fr,es,it)` — comparable with XTTSv2;
+- `Avg. (all)` — all six LatinX evaluation languages.
 
 ## Model overview
 
-- **Backbone:** 12-layer **decoder-only Transformer** operating on discrete audio tokens.  
-- **Front-end & conditioning:**  
-  - Phonetic prompts from a **G2P** component.  
-  - Acoustic prompts (short reference speech) for **voice cloning**.  
-  - **Neural codec / audio tokens** for efficient autoregressive synthesis.
-- **Languages:** EN, ES, FR, IT, PT, RO (with emphasis on Portuguese).
+At a high level, the system uses:
 
+- a grapheme-to-phoneme component for phonetic conditioning;
+- a neural audio codec for discrete audio tokens;
+- an autoregressive decoder-only Transformer for speech generation;
+- acoustic prompts for zero-shot voice conditioning;
+- DPO alignment over automatically constructed preference pairs.
 
+The training pipeline follows three stages:
 
-## Training pipeline
+1. **Pre-training** over multilingual speech data;
+2. **Supervised fine-tuning** for zero-shot voice cloning;
+3. **DPO alignment** using automatically labeled preferences based on WER and speaker similarity.
 
-1. **Stage 1 — Pre-training (400k steps):**  
-   Cross-entropy objective to learn the text/phoneme → audio-tokens mapping (no speaker conditioning).
+## Supplementary data
 
-2. **Stage 2 — Supervised Fine-Tuning (30k steps):**  
-   Triplets *(audio_context, text, audio_target)* from the **same speaker** to learn voice conditioning (zero-shot cloning). Speaker-embedding constraints enforce high intra-speaker consistency.
+The supplementary page contains:
 
-3. **Stage 3 — DPO Alignment (~4k steps):**  
-   - **Candidate generation:** Translate transcripts with M2M-100; for each text, generate **5** candidate audios with repetition-aware sampling (*temp=0.7, top-p=1.0*).  
-   - **Filtering:** Discard pairs where any candidate has **WER > 20%** (Whisper) or **similarity < 0.5** (TitaNet embeddings).  
-   - **Labeling:** **Pareto dominance** — a winner must be **better on both** (lower WER **and** higher similarity).  
-   - **Optimization:** DPO with a frozen reference policy (the SFT model), inverse temperature **β = 0.3**, mixed mini-batches + grad accumulation.
+- evaluator demographics, with integer counts by native language and gender category;
+- WER summary and detailed source-target tables;
+- objective similarity summary and detailed source-target tables;
+- SMOS summary and detailed source-target tables;
+- MOS summary and detailed source-target tables.
 
+For LatinX objective similarity, summary cells report:
 
+```text
+Sim-O / Sim-E
+```
 
-## Evaluation setup
+where:
 
-- **Objective intelligibility:** WER from **Whisper ASR**, reported per source→target language pair.  
-- **Objective speaker similarity:** Cosine similarity over **TitaNet** embeddings.  
-- **Subjective evaluations:** **SMOS** (speaker similarity) and **MOS** (naturalness), following **ITU-T P.808** best practices (ACR/CCR variants, QA, gold/trap items).
+- **Sim-O** compares generated audio with the original speaker audio;
+- **Sim-E** compares generated audio with the codec-reconstructed speaker audio and is a codec-aware diagnostic, not a direct replacement for baseline Sim-O.
 
+## Usage notes
 
+The demo samples are provided for research illustration and qualitative inspection. They should be interpreted together with the quantitative tables and the limitations discussed in the paper, especially the divergence between objective speaker-similarity metrics and human SMOS judgments.
 
-## Key results (summary)
+The public material does not include private datasets or non-releasable training data. Check the inference repository and Hugging Face model page for the current artifact layout and download instructions.
 
-- **WER:** DPO consistently lowers WER vs. the fine-tuned (SFT) baseline, with **large gains in Romanian** directions.  
-  Representative pairs include **ro→es** (down to **0.45% WER**) and **ro→pt** (around **1.7% WER**).
-
-- **Speaker similarity (SMOS):** Averaged over {EN, ES, FR, IT, PT}, SMOS is:
-  - **Real:** 4.07  
-  - **xTTSv2:** 3.24  
-  - **LatinX (SFT):** 3.63  
-  - **LatinX (DPO):** 3.54  
-  Human raters **consistently preferred LatinX** over xTTSv2 for preserving the speaker’s voice, with DPO reaching the **best monolingual** similarity in several directions.
-
-- **Naturalness (MOS):** Averages over {EN, ES, FR, IT, PT}:
-  - **Real:** 3.78  
-  - **xTTSv2:** 3.45  
-  - **LatinX (SFT):** 3.41  
-  - **LatinX (DPO):** 3.35  
-  Results highlight a **tension between similarity and naturalness**: pushing similarity (via DPO) can slightly reduce MOS, but yields **clear intelligibility and voice-preservation benefits**.
-
-> Full cross-lingual breakdowns (per source→target) are provided in the paper; the demo page reproduces representative samples for listening comparison.
-
-
-
-## Audio demos
-
-The GitHub Pages site showcases:
-- **Single-voice, multi-language** examples (one reference voice → six targets).  
-- **Cross-lingual intelligibility** pairs with **low WER**.  
-- **Monolingual voice cloning** (reference vs. LatinX output).  
-- **Quick SMOS/MOS summaries** for at-a-glance comparison.
-
-**Demo:** https://luischary.github.io/latinx-demo/
-
-
-
-## Acknowledgments & Ethics
-
-- Audio samples and human studies were collected under research-only conditions and reported with P.808 safeguards.
-
-- Preference alignment targets intelligibility and speaker similarity; care must be taken in real-world deployments to address consent, misuse prevention, and disclosure when cloning voices.
-
+No DOI/proceedings citation is listed here yet. Until final proceedings metadata is available, cite the arXiv/preprint entry below or refer to the work as accepted at BRACIS 2026.
 
 ## Citation
 
@@ -105,12 +109,16 @@ If you find this work useful, please cite:
 
 ```bibtex
 @misc{chary2025latinxaligningmultilingualtts,
-  title        = {LatinX: Aligning a Multilingual TTS Model with Direct Preference Optimization},
-  author       = {Luis Felipe Chary and Miguel Arjona Ramirez},
-  year         = {2025},
-  eprint       = {2509.05863},
-  archivePrefix= {arXiv},
-  primaryClass = {cs.CL},
-  url          = {https://arxiv.org/abs/2509.05863}
+  title         = {LatinX: Aligning a Multilingual TTS Model with Direct Preference Optimization},
+  author        = {Luis Felipe Chary and Miguel Arjona Ramirez},
+  year          = {2025},
+  eprint        = {2509.05863},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2509.05863}
 }
 ```
+
+## Ethics and limitations
+
+Voice-preserving speech generation can be misused. Any deployment should address consent, disclosure, access control, and misuse prevention. The demo is intended for research communication and should not be treated as a production voice-cloning service.
